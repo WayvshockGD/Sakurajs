@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "outDir": "./o",
+        "module": "CommonJS",
+        "target": "ES2022",
+        "strict": true,
+        "strictPropertyInitialization": true,
+        "allowJs": true
+    }
+}

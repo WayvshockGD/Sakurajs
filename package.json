@@ -1,0 +1,24 @@
+{
+  "name": "sakura.js",
+  "version": "1.0.0",
+  "description": "Eris framework for easy use of the library.",
+  "main": "index.js",
+  "types": "./types/index.d.ts",
+  "scripts": {
+    "docs": "docgen --source lib --output docs/documentation.json"
+  },
+  "keywords": [
+    "framework",
+    "eris"
+  ],
+  "author": "Wayv",
+  "license": "MIT",
+  "devDependencies": {
+    "@discordjs/docgen": "^0.11.0",
+    "@types/node": "^17.0.8"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "eris": "^0.16.1"
+  }
+}
