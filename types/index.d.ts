@@ -46,7 +46,7 @@ declare module "sakura.js" {
         info(content: string): void;
         warn(content: string): void;
         error(content: string): void;
-        custom(content: string): () => void;
+        custom(content: string, type: string, color: LoggerFormatOptions["color"]): () => void;
         formatLoggerTime(type: string, options: LoggerFormatOptions): string;
     }
 
