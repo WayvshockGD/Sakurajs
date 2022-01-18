@@ -1,4 +1,6 @@
-- name: Generate JSDoc documentation
-  uses: brunokrauss/jsdoc-action@3
-with:
-    jsdoc-path: 'lib'
+- name: Build
+  uses: andstor/jsdoc-action@v1
+  with:
+    source_dir: ./lib
+    recurse: true
+    output_dir: ./docs
