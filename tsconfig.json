@@ -2,9 +2,10 @@
     "compilerOptions": {
         "outDir": "./o",
         "module": "CommonJS",
-        "target": "ES2022",
+        "target": "ESNEXT",
         "strict": true,
         "strictPropertyInitialization": true,
-        "allowJs": true
+        "allowJs": true,
+        "esModuleInterop": true
     }
 }

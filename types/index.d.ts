@@ -2,7 +2,7 @@ import chalk from "chalk";
 import Eris from "eris";
 import EventEmitter from "events";
 
-declare namespace Sakurajs {
+declare module "sakura.js" {
 
     interface SakuraClientOptions {
         log: {
@@ -54,7 +54,7 @@ declare namespace Sakurajs {
 
     export class ExtendedMessage extends Eris.Message {
         sakura: SakuraClient;
-        createEmbed(content: Eris.EmbedOptions | Eris.EmbedOptions[]): Eris.Message;
+        createEmbedMessage(content: Eris.EmbedOptions | Eris.EmbedOptions[]): Eris.Message;
         post(content: Eris.MessageContent, file: Eris.FileContent | Eris.FileContent[]): Eris.Message;
     }
 }
