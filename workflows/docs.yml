@@ -1,0 +1,3 @@
+uses: brunokrauss/jsdoc-action@1
+with:
+    jsdoc-path: 'lib'
