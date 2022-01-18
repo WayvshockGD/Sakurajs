@@ -52,6 +52,22 @@ declare module "sakura.js" {
 
     export class SakuraError extends TypeError {}
 
+    export class ErisMessageEmbed {
+        title: string;
+        description: string;
+        url: string;
+        fields: Eris.EmbedField[];
+        color: number;
+        author: Eris.EmbedAuthorOptions;
+        image: Eris.EmbedImageOptions;
+        thumbnail: Eris.EmbedImageOptions;
+        timestamp: Date;
+        public constructor(data?: Eris.EmbedOptions);
+        setTitle(str: string): this;
+        setURL(url: string): this;
+        toJSON(): Eris.EmbedOptions;
+    }
+
     export class ExtendedMessage extends Eris.Message {
         sakura: SakuraClient;
         createEmbedMessage(content: Eris.EmbedOptions | Eris.EmbedOptions[]): Eris.Message;

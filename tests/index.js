@@ -1,12 +1,16 @@
 const Eris = require("eris");
 let sakura = require("sakura.js");
+const ErisMessageEmbed = require("../lib/structures/ErisMessageEmbed");
 
 let eris = new Eris.Client();
 let client = new sakura.SakuraClient(eris, {});
 
 client.on("message", (message) => {
     if (message.content.startsWith("!test")) {
-        message.createEmbedMessage({ description: "HI!" });
+        let embed = new ErisMessageEmbed()
+            .setTitle("t");
+
+        message.createEmbedMessage(embed.toJSON());
     }
 });
 
