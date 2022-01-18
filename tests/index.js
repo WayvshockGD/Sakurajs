@@ -7,8 +7,7 @@ let client = new sakura.SakuraClient(eris, {});
 
 client.on("message", (message) => {
     if (message.content.startsWith("!test")) {
-        let embed = new ErisMessageEmbed()
-            .setTitle("t");
+        let embed = new ErisMessageEmbeds
 
         message.createEmbedMessage(embed.toJSON());
     }
