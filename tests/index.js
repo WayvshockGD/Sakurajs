@@ -1,16 +1,18 @@
 const Eris = require("eris");
 let sakura = require("sakura.js");
-const ErisMessageEmbed = require("../lib/structures/ErisMessageEmbed");
+let config = require("./config.test.json");
 
-let eris = new Eris.Client();
+let eris = new Eris.Client(config.token, { intents: ["guildMessages", "guilds"] });
 let client = new sakura.SakuraClient(eris, {});
 
 client.on("message", (message) => {
     if (message.content.startsWith("!test")) {
-        let embed = new ErisMessageEmbeds
+        let embed = new sakura.ErisMessageEmbed()
+            .setTitle("HI!");
 
-        message.createEmbedMessage(embed.toJSON());
+        console.log(embed.toJSON());
+        //message.createEmbedMessage();
     }
 });
 
-client.logger.custom
+client.login();
