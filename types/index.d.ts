@@ -5,16 +5,28 @@ import EventEmitter from "events";
 declare module "sakura.js" {
 
     interface SakuraClientOptions {
-        log: {
-            debug: boolean;
-            ISO: boolean;
+        log?: {
+            debug?: boolean;
+            ISO?: boolean;
         };
-        maxAttempts: number;
+        maxAttempts?: number;
     }
 
     interface ExtendedStructureClients {
         eris: Eris.Client;
         sakura: SakuraClient;
+    }
+
+    interface ErisEmbed {
+        image: Eris.EmbedImageOptions;
+        thumbnail: Eris.EmbedImageOptions;
+        author: Eris.EmbedAuthorOptions;
+        title: Eris.EmbedOptions["title"];
+        description: Eris.EmbedOptions["description"];
+        fields: Eris.EmbedField[];
+        timestamp: Eris.EmbedOptions["timestamp"];
+        footer: Eris.EmbedFooterOptions;
+        color: number | ErisColorResolve;
     }
     
     interface ExtendedClientEvents<T> {
@@ -27,13 +39,19 @@ declare module "sakura.js" {
         content: string;
     }
 
+    type ErisColorResolve = ErisColorPalletResolve | ErisPastelColorResolve | ErisDarkColorResolve | ErisLightColorResolve;
+    type ErisPastelColorResolve = "pasRed" | "pasOrange" | "pasYellow" | "pasGreen" | "padBlue" | "padPurple";
+    type ErisColorPalletResolve = "red" | "orange" | "yellow" | "green" | "lime" | "blue" | "violet" | "white";
+    type ErisDarkColorResolve = "darkRed" | "darkOrange" | "darkYellow" | "darkGreen" | "darkBlue" | "darkPurple";
+    type ErisLightColorResolve = "lightRed" | "lightOrange" | "lightYellow" | "lightGreen" | "lightBlue" | "lightPurple";
+
     export class SakuraClient extends EventEmitter {
         client: Eris.Client;
         options: SakuraClientOptions;
         on: ExtendedClientEvents<this>;
         logger: Logger;
         private attempts: number;
-        constructor(client: Eris.Client, options: SakuraClientOptions);
+        constructor(client: Eris.Client, options?: SakuraClientOptions);
         login(): Promise<string>;
         processEvents(): void;
         getClients(): ExtendedStructureClients;
@@ -63,14 +81,28 @@ declare module "sakura.js" {
         thumbnail: Eris.EmbedImageOptions;
         timestamp: Date;
         public constructor(data?: Eris.EmbedOptions);
+        /** Checks if two exact embeds are the same */
+        equal(embed1: Eris.EmbedOptions, embed2: Eris.EmbedOptions): boolean;
         setTitle(str: string): this;
         setURL(url: string): this;
+        setDescription(str: string): this;
+        setAuthor(data: ErisEmbed["author"]): this;
+        setFooter(data: ErisEmbed["footer"]): this;
+        addField(field: Eris.EmbedField): this;
+        setFields(fields: ErisEmbed["fields"]): this;
+        setColor(color: ErisColorResolve | number): this;
         toJSON(): Eris.EmbedOptions;
     }
 
     export class ExtendedMessage extends Eris.Message {
         sakura: SakuraClient;
-        createEmbedMessage(content: Eris.EmbedOptions | Eris.EmbedOptions[]): Eris.Message;
+        createEmbedMessage(content: Eris.EmbedOptions | Eris.EmbedOptions[] | ErisMessageEmbed | ErisMessageEmbed[]): Eris.Message;
         post(content: Eris.MessageContent, file: Eris.FileContent | Eris.FileContent[]): Eris.Message;
+    }
+}
+
+declare module "eris" {
+    interface Channel {
+        guild: Eris.Guild;
     }
 }
