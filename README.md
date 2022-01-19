@@ -2,6 +2,8 @@
 
 PLEASE NOTE THIS FRAMEWORK IS NOT FINISHED!
 
+A Eris framework based on Discord.js.
+
 # 🔧 Examples
 
 ```js
