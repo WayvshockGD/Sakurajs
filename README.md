@@ -27,6 +27,7 @@ client.login(); // The login method will connect the bot, but if it is unable to
 
 The framework uses a better color pallet than Discord.js so you can choose what you like!
 The avalible pallets: `Original`, `Pastel`, `Light`, `Dark`, And more to come!
+
 If you would like more pallets, fork this repo and make a pull request.
 
 Embed:
