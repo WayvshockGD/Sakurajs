@@ -1,5 +1,6 @@
 const Eris = require("eris");
 let sakura = require("sakura.js");
+let COLORS = require("../lib/Colors").ALL_COLOR_PALLETS;
 let config = require("./config.test.json");
 
 let eris = new Eris.Client(config.token, { intents: ["guildMessages", "guilds"] });
@@ -15,4 +16,6 @@ client.on("message", (message) => {
     }
 });
 
-client.login();
+console.log(Object.keys(COLORS).length)
+
+//client.login();

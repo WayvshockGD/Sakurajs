@@ -43,7 +43,7 @@ declare module "sakura.js" {
         event: T;
         once: boolean;
         execute?: boolean;
-        run(data: Eris.ClientEvents[T], logger: Logger): any;
+        run(logger: Logger, ...data: Eris.ClientEvents[T]): any;
     }
 
     interface CommandCreatorOptions {
@@ -192,7 +192,7 @@ declare module "sakura.js" {
         public execute?: boolean | undefined;
         private options: EventCreateOptions<K>;
         public constructor(options: EventCreateOptions<K>);
-        public run(data: Eris.ClientEvents[K], logger: Logger): any;
+        public run(logger: Logger, ...data: Eris.ClientEvents[K]): any;
     }
 
     export let Command: { 
