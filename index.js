@@ -9,3 +9,4 @@ exports.Command = {
     creator: require("./lib/structures/Command")
 };
 exports.CommandArgs = require("./lib/structures/CommandArgs");
+exports.Event = require("./lib/structures/Event");
