@@ -194,7 +194,7 @@ declare module "sakura.js" {
     }
 
     export let Command: { 
-        creator: CommandCreator 
+        creator: typeof CommandCreator 
     };
 }
 
