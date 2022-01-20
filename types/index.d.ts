@@ -190,6 +190,8 @@ declare module "sakura.js" {
         public event: K;
         public once: boolean;
         public execute?: boolean | undefined;
+        private options: EventCreateOptions<K>;
+        public constructor(options: EventCreateOptions<K>);
         public run(data: Eris.ClientEvents[K], logger: Logger): any;
     }
 

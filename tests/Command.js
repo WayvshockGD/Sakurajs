@@ -1,8 +1,9 @@
-let { Command } = require("sakura.js");
+let { Command, Event } = require("sakura.js");
 
-let co = new Command.creator({
+new Command.creator({
     names: ["test"],
     args: ["member", "mention"],
-    execute(ctx, util) {
-    }
+    execute(ctx, util) {}
 });
+
+new Event();
