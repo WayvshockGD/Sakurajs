@@ -15,7 +15,7 @@ let client = new SakuraClient(erisClient, { maxAttempts: 3 }); // Call the eris 
 
 // Its a extended message so there are more methods!
 client.on("message", (message) => {
-       if (message.content.startsWith("!embed") {
+       if (message.content.startsWith("!send") {
            message.post("Hi this is a message from the sakurajs framework"); // message.post() works the same way channel.createMessage() but it catches the error.
        }
 });
