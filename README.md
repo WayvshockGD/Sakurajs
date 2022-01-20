@@ -7,7 +7,7 @@ A Eris framework based on Discord.js.
 # 🔧 Examples
 
 ```js
-let { SakuraClient } = require("sakurajs");
+let { SakuraClient } = require("sakura.js");
 let Eris = require("eris");
 
 let erisClient = new Eris.Client("TOKEN", {});
@@ -26,17 +26,17 @@ client.login(); // The login method will connect the bot, but if it is unable to
 # 📄 Embeds and Colors
 
 The framework uses a better color pallet than Discord.js so you can choose what you like!
-The avalible pallets: `Original`, `Pastel`, `Light`, `Dark`, And more to come!
+The avalible pallets: `Original`, `Pastel`, `Light`, `Dark`, `Pride`, `Discord`  And more to come!
 
 If you would like more pallets, fork this repo and make a pull request.
 
 Embed:
 ```js
-let { ErisMessageEmbed } = require("sakurajs");
+let { ErisMessageEmbed } = require("sakura.js");
 
 let embed = new ErisMessageEmbed()
     .setDescription("This is a embed!")
-    .setColor("pasOrange"); // Prefix the color with either "pas", "light", "dark" or the original color
+    .setColor("pasOrange"); // Prefix the color with either "pas", "light", "dark", "pride" or the original color
     
 message.createEmbedMessage([embed]) // Don't worry about doing embed.toJSON(), the method already does it.
 ```
@@ -46,7 +46,7 @@ The logger class is the main class of the client.
 
 Usage:
 ```js
-let { Logger } = require("sakurajs");
+let { Logger } = require("sakura.js");
 
 let log = new Logger();
 

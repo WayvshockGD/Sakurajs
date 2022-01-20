@@ -10,11 +10,23 @@ declare module "sakura.js" {
             ISO?: boolean;
         };
         maxAttempts?: number;
+        responses?: SakuraClientResponses;
+        command: SakuraClientCommandOptions;
+    }
+
+    interface SakuraClientCommandOptions {
+        defaultPrefix: string;
     }
 
     interface ExtendedStructureClients {
         eris: Eris.Client;
         sakura: SakuraClient;
+    }
+
+    interface SakuraClientResponses {
+        error?: string | false;
+        noArgs?: string | false;
+        noCommand?: string | false;
     }
 
     interface ErisEmbed {
@@ -37,6 +49,10 @@ declare module "sakura.js" {
         color: keyof (typeof chalk);
         useISO: boolean;
         content: string;
+    }
+
+    interface PluginOptions {
+        name: string;
     }
 
     interface EventCreateOptions<T extends keyof Eris.ClientEvents> {
@@ -95,6 +111,8 @@ declare module "sakura.js" {
     type ErisDiscordColorResolve = "blurple" | "greyple" | "notQuiteBlack" | "darkButNotQuiteBlack";
 
     export class SakuraClient extends EventEmitter {
+        plugins: ExtendedCollection<string, Plugin>;
+        commandPlugins: ExtendedCollection<string, CommandCreator>;
         client: Eris.Client;
         options: SakuraClientOptions;
         on: ExtendedClientEvents<this>;
@@ -155,6 +173,13 @@ declare module "sakura.js" {
         post(content: Eris.MessageContent, file: Eris.FileContent | Eris.FileContent[]): Eris.Message;
     }
 
+    export class Plugin {
+        get name(): string;
+        public commands: ExtendedCollection<string, CommandCreator>;
+        public constructor(options: PluginOptions);
+        setCommands(commands: CommandCreator): any;
+    }
+
     export class CommandUtil {
         private command: CommandCreator;
         private message: ExtendedMessage;
@@ -195,9 +220,14 @@ declare module "sakura.js" {
         public run(logger: Logger, ...data: Eris.ClientEvents[K]): any;
     }
 
-    export let Command: { 
-        creator: typeof CommandCreator 
-    };
+    export class CommandHandler {
+        public client: SakuraClient;
+        public options: SakuraClientCommandOptions;
+        constructor(options: SakuraClientCommandOptions);
+        setup(): any;
+    }
+
+    export class ExtendedCollection<K, V> extends Map<K, V> {}
 }
 
 declare module "eris" {

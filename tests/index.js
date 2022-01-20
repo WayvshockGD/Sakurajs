@@ -1,5 +1,6 @@
 const Eris = require("eris");
 let sakura = require("sakura.js");
+let { Colors } = require("discord.js").Constants;
 let COLORS = require("../lib/Colors").ALL_COLOR_PALLETS;
 let config = require("./config.test.json");
 
@@ -15,7 +16,5 @@ client.on("message", (message) => {
         message.createEmbedMessage([embed]);
     }
 });
-
-console.log(Object.keys(COLORS).length)
 
 //client.login();

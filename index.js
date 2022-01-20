@@ -5,8 +5,9 @@ exports.Logger = require("./lib/utils/Logger");
 exports.ErisMessageEmbed = require("./lib/structures/ErisMessageEmbed");
 exports.Util = require("./lib/utils/Util");
 exports.CommandUtil = require("./lib/utils/CommandUtil");
-exports.Command = {
-    creator: require("./lib/structures/Command")
-};
+exports.CommandCreator = require("./lib/structures/Command");
+exports.Plugin = require("./lib/structures/Plugin");
 exports.CommandArgs = require("./lib/structures/CommandArgs");
 exports.Event = require("./lib/structures/Event");
+exports.CommandHandler = require("./lib/handlers/CommandHandler");
+exports.ExtendedMessage = require("./lib/utils/ExtendedCollection");
