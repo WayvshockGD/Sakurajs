@@ -17,6 +17,10 @@ declare module "sakura.js" {
         sakura: SakuraClient;
     }
 
+    interface CommandCreatorOptions {
+        names: string[];
+    }
+
     interface ErisEmbed {
         image: Eris.EmbedImageOptions;
         thumbnail: Eris.EmbedImageOptions;
@@ -39,11 +43,14 @@ declare module "sakura.js" {
         content: string;
     }
 
-    type ErisColorResolve = ErisColorPalletResolve | ErisPastelColorResolve | ErisDarkColorResolve | ErisLightColorResolve;
+    type ErisColorResolve = ErisColorPalletResolve | ErisPastelColorResolve | ErisDarkColorResolve | ErisLightColorResolve | ErisPrideColorResolve | ErisDiscordColorResolve;
     type ErisPastelColorResolve = "pasRed" | "pasOrange" | "pasYellow" | "pasGreen" | "pasBlue" | "pasPurple";
-    type ErisColorPalletResolve = "red" | "orange" | "yellow" | "green" | "lime" | "blue" | "violet" | "white";
-    type ErisDarkColorResolve = "darkRed" | "darkOrange" | "darkYellow" | "darkGreen" | "darkBlue" | "darkPurple";
+    type ErisColorPalletResolve = "red" | "orange" | "yellow" | "green" | "lime" | "blue" | "violet" | "white" | "fuchsia" | "luminousVividPink" | "navy";
+    type ErisDarkColorResolve = "darkRed" | "darkOrange" | "darkYellow" | "darkGreen" | "darkBlue" | "darkPurple" | "darkGold";
     type ErisLightColorResolve = "lightRed" | "lightOrange" | "lightYellow" | "lightGreen" | "lightBlue" | "lightPurple";
+    type ErisPrideColorResolve = "cornFlowerBlue" | "pacificBlue" | "corn" | "rajah" | "bigDripOruby" | ErisPridePalletColorResolve;
+    type ErisPridePalletColorResolve = "prideRed" | "prideOrange" | "prideYellow" | "prideGreen" | "prideBlue" | "pridePurple";
+    type ErisDiscordColorResolve = "blurple" | "greyple" | "notQuiteBlack" | "darkButNotQuiteBlack";
 
     export class SakuraClient extends EventEmitter {
         client: Eris.Client;
