@@ -12,3 +12,4 @@ exports.Event = require("./lib/structures/Event");
 exports.CommandHandler = require("./lib/handlers/CommandHandler");
 exports.ExtendedMessage = require("./lib/utils/ExtendedCollection");
 exports.SakuraCron = require("./lib/utils/SakuraCron");
+exports.MessageCollector = require("./lib/structures/MessageCollector");

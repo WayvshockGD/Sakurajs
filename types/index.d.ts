@@ -16,6 +16,17 @@ declare module "sakura.js" {
         command: SakuraClientCommandOptions;
     }
 
+    interface MessageCollectorOptions {
+        time?: number;
+        idle?: number;
+        dispose?: boolean;
+    }
+
+    interface ReactionCollectorOptions {
+        time?: number;
+        maxMatches?: number;
+    }
+
     interface SakuraClientCommandOptions {
         defaultPrefix: string;
         initHandler: boolean;
@@ -31,6 +42,7 @@ declare module "sakura.js" {
         noArgs?: string | false;
         noCommand?: string | false;
         forChannel?: string | false;
+        cooldown?: (time: number) => string | false;
     }
 
     interface ErisEmbed {
@@ -47,6 +59,23 @@ declare module "sakura.js" {
     
     interface ExtendedClientEvents<T> {
         (event: "message", listener: (message: ExtendedMessage) => void): T;
+    }
+
+    interface MessageCollectorEvents<T> {
+        (event: "collect", listener: (message: Eris.Message) => void): T;
+        (event: "dispose", listener: (message: Eris.Message) => void): T;
+        (event: "end", listener: (collected: number, cause: string) => void): T;
+    }
+
+    interface ReactionCollectorEvents<T> {
+        (event: "reacted", listener: (data: ReactionCollectorReactedData) => void): T;
+        (event: "end", listener: (collected: number, reason: string) => void): T;
+    }
+
+    interface ReactionCollectorReactedData {
+        msg: Eris.Message;
+        emoji: Eris.PartialEmoji;
+        reactor: Eris.Uncached | Eris.Member;
     }
 
     interface LoggerFormatOptions {
@@ -66,13 +95,14 @@ declare module "sakura.js" {
         run(logger: Logger, ...data: Eris.ClientEvents[T]): any;
     }
 
-    interface CommandCreatorOptions<T, K> {
+    interface CommandCreatorOptions<T extends CommandCreatorContextArgTypes, K> {
         names: string[];
         onlyForChannels?: CommandCreatorChannelForOptions;
         description?: string;
         enabled?: boolean;
-        args?: CommandArgsOptions;
+        args?: CommandArgsOptions<T>;
         owner?: boolean;
+        cooldown?: number;
         execute(ctx: CommandContext<T, K>, util: CommandUtil): any;
     }
 
@@ -92,11 +122,15 @@ declare module "sakura.js" {
         args: CommandArgData<T, K>;
     }
 
+    type CollectorFilter = (m: Eris.Message, collected: number) => boolean;
+
+    type ReactionCollectorFilter = (id: string) => boolean;
+
     type SakuraCommandArgData = (Eris.User | Eris.TextableChannel | Eris.Role);
 
     type SakuraCronTypeArgs = string | Date | moment.Moment;
 
-    type CommandArgsOptions = [CommandCreatorContextMentionTypes, CommandCreatorContextArgTypes];
+    type CommandArgsOptions<T extends CommandCreatorContextArgTypes> = [CommandCreatorContextMentionTypes, T];
 
     type CommandCreatorContextMentionTypes = "member" | "channel" | "role";
     
@@ -177,8 +211,11 @@ declare module "sakura.js" {
     export class ExtendedMessage extends Eris.Message {
         sakura: SakuraClient;
         guild: Eris.Guild;
+        memberGuildRoles: Eris.Role[];
         createEmbedMessage(content: ErisEmbed | ErisEmbed[] | ErisMessageEmbed | ErisMessageEmbed[]): Eris.Message;
         post(content: Eris.MessageContent, file: Eris.FileContent | Eris.FileContent[]): Eris.Message;
+        createMessageCollector(filter: CollectorFilter, options: MessageCollectorOptions): MessageCollector;
+        createReactionCollector(filter: ReactionCollectorOptions, perma: boolean, options: ReactionCollectorOptions): ReactionCollector;
     }
 
     export class Plugin {
@@ -192,14 +229,15 @@ declare module "sakura.js" {
         private command: CommandCreator;
         private message: ExtendedMessage;
         constructor(command: CommandCreator, message: ExtendedMessage);
+        cron(time: SakuraCronTypeArgs, fn: () => any): SakuraCron;
         public createEmbed(data: ErisEmbed): ErisMessageEmbed;
     }
 
-    export class CommandArgs {
+    export class CommandArgs<T extends CommandCreatorContextArgTypes> {
         private message: ExtendedMessage;
-        private args: CommandArgsOptions;
+        private args: CommandArgsOptions<T>;
         public parsed: string;
-        public constructor(arg: CommandArgsOptions, message: ExtendedMessage);
+        public constructor(arg: CommandArgsOptions<T>, message: ExtendedMessage);
         parse(): string;
     }
 
@@ -207,16 +245,17 @@ declare module "sakura.js" {
         static parseColor(color: ErisColorResolve): number;
     }
 
-    class CommandCreator<K = SakuraCommandArgData, T extends CommandCreatorContextArgTypes = CommandCreatorContextArgTypes> implements CommandCreatorOptions<T, K> {
+    class CommandCreator<K = SakuraCommandArgData, T extends CommandCreatorContextArgTypes = CommandCreatorContextArgTypes> {
         public names: string[];
         public description?: string | undefined;
         public owner?: boolean | undefined;
         public enabled?: boolean | undefined;
         public options: CommandCreatorOptions<T, K>;
-        public args?: CommandArgsOptions | undefined;
+        public args?: CommandArgsOptions<T> | undefined;
         public onlyForChannels?: CommandCreatorChannelForOptions | undefined;
+        public cooldown?: number;
         public constructor(options: CommandCreatorOptions<T, K>);
-        initArgs(message: ExtendedMessage): CommandArgs;
+        initArgs(message: ExtendedMessage): CommandArgs<T>;
         execute(ctx: CommandContext<T, K>, util: CommandUtil): any;
         private verify();
     }
@@ -231,6 +270,7 @@ declare module "sakura.js" {
     }
 
     export class CommandHandler {
+        public cooldowns: Map<string, number>;
         public client: SakuraClient;
         public options: SakuraClientCommandOptions;
         constructor(options: SakuraClientCommandOptions);
@@ -240,6 +280,26 @@ declare module "sakura.js" {
     export class SakuraCron extends CronJob {
         constructor(time: SakuraCronTypeArgs, func: () => void);
         static init(time: SakuraCronTypeArgs, func: () => void): SakuraCron;
+    }
+
+    export class MessageCollector extends EventEmitter {
+        results: number;
+        filter: CollectorFilter;
+        collected: Map<any, any>; // IDK the types
+        finished: boolean;
+        private channel: Eris.TextableChannel;
+        on: MessageCollectorEvents<this>;
+        constructor(client: Eris.Client, channel: Eris.TextableChannel, filter: CollectorFilter, options?: MessageCollectorOptions);
+        collect(message: Eris.Message): string;
+        dispose(message: Eris.Message): string | null;
+        endCause(): "max" | "maxProcessed" | null;
+    }
+
+    export class ReactionCollector extends EventEmitter {
+        public constructor(message: ExtendedMessage, filter: ReactionCollectorFilter, permanent: boolean, options: ReactionCollectorOptions);
+        on: ReactionCollectorEvents<this>;
+        checkPrecondition(msg: Eris.Message, emoji: Eris.PartialEmoji, reactor: Eris.Uncached | Eris.Member): boolean;
+        stopListening(reason: string): void;
     }
 
     export class ExtendedCollection<K, V> extends Map<K, V> {}

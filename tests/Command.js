@@ -1,13 +1,14 @@
-let { Command, Event } = require("sakura.js");
+let { CommandCreator, Event } = require("sakura.js");
 
-new Command.creator({
+new CommandCreator({
     names: ["test"],
-    args: ["member", "mention"],
+    args: ["member", "id"],
     execute(ctx, util) {
+        ctx.args.parsed.
     }
 });
 
 new Event({
-    event: "messageCreate",
-    run(message, log) {}
+    event: "messageReactionAdd",
+    run(logger, message, emoji, react) {}
 });

@@ -41,6 +41,36 @@ let embed = new ErisMessageEmbed()
 message.createEmbedMessage([embed]) // Don't worry about doing embed.toJSON(), the method already does it.
 ```
 
+# 👷 Collectors
+
+The reaction and message collectors are copied code from
+[Eris-Reactions](https://github.com/knht/eris-reactions)
+[Eris-Message-Collector](https://github.com/GodyFromDiscord/eris-message-collector)
+
+Example of usage
+```js
+let { MessageCollector, ReactionCollector } = require("sakura.js"); // Import it
+
+client.on("message", (message) => {
+    if (message.content.startsWith("!collect")) {
+        message.createMessageCollector(filter, options) // Or use it through the extended Message!
+        message.createReactionCollector(filter, perma, options);
+    }
+})
+```
+
+# 💬 Responses
+The client comes with responses that are customizable.
+
+```js
+let client = new SakuraClient(new Eris("TOKEN"), {
+    responses: {
+        cooldown: (time) => `You can run this command again in ${time}!`,
+        error: "OH NO an error!"
+    }
+});
+```
+
 # 📙 Logger
 The logger class is the main class of the client.
 
