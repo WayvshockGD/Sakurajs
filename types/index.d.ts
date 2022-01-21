@@ -95,15 +95,15 @@ declare module "sakura.js" {
         run(logger: Logger, ...data: Eris.ClientEvents[T]): any;
     }
 
-    interface CommandCreatorOptions<T extends CommandCreatorContextArgTypes, K> {
+    interface CommandCreatorOptions<T extends CommandCreatorContextArgTypes, D extends SakuraCommandArgData> {
         names: string[];
         onlyForChannels?: CommandCreatorChannelForOptions;
         description?: string;
         enabled?: boolean;
-        args?: CommandArgsOptions<T>;
+        args?: CommandArgsOptions<T, D>;
         owner?: boolean;
         cooldown?: number;
-        execute(ctx: CommandContext<T, K>, util: CommandUtil): any;
+        execute(ctx: CommandContext<T, D>, util: CommandUtil): any;
     }
 
     interface CommandCreatorChannelForOptions {
@@ -130,7 +130,7 @@ declare module "sakura.js" {
 
     type SakuraCronTypeArgs = string | Date | moment.Moment;
 
-    type CommandArgsOptions<T extends CommandCreatorContextArgTypes> = [CommandCreatorContextMentionTypes, T];
+    type CommandArgsOptions<T extends CommandCreatorContextArgTypes, K extends SakuraCommandArgData> = [CommandCreatorContextMentionTypes, T];
 
     type CommandCreatorContextMentionTypes = "member" | "channel" | "role";
     
@@ -233,11 +233,11 @@ declare module "sakura.js" {
         public createEmbed(data: ErisEmbed): ErisMessageEmbed;
     }
 
-    export class CommandArgs<T extends CommandCreatorContextArgTypes> {
+    export class CommandArgs<T extends CommandCreatorContextArgTypes, K extends SakuraCommandArgData> {
         private message: ExtendedMessage;
-        private args: CommandArgsOptions<T>;
+        private args: CommandArgsOptions<T, K>;
         public parsed: string;
-        public constructor(arg: CommandArgsOptions<T>, message: ExtendedMessage);
+        public constructor(arg: CommandArgsOptions<T, K>, message: ExtendedMessage);
         parse(): string;
     }
 
@@ -245,17 +245,17 @@ declare module "sakura.js" {
         static parseColor(color: ErisColorResolve): number;
     }
 
-    class CommandCreator<K = SakuraCommandArgData, T extends CommandCreatorContextArgTypes = CommandCreatorContextArgTypes> {
+    class CommandCreator<K extends SakuraCommandArgData = SakuraCommandArgData, T extends CommandCreatorContextArgTypes = CommandCreatorContextArgTypes> {
         public names: string[];
         public description?: string | undefined;
         public owner?: boolean | undefined;
         public enabled?: boolean | undefined;
         public options: CommandCreatorOptions<T, K>;
-        public args?: CommandArgsOptions<T> | undefined;
+        public args?: CommandArgsOptions<T, K> | undefined;
         public onlyForChannels?: CommandCreatorChannelForOptions | undefined;
         public cooldown?: number;
         public constructor(options: CommandCreatorOptions<T, K>);
-        initArgs(message: ExtendedMessage): CommandArgs<T>;
+        initArgs(message: ExtendedMessage): CommandArgs<T, K>;
         execute(ctx: CommandContext<T, K>, util: CommandUtil): any;
         private verify();
     }
@@ -274,6 +274,7 @@ declare module "sakura.js" {
         public client: SakuraClient;
         public options: SakuraClientCommandOptions;
         constructor(options: SakuraClientCommandOptions);
+        get responses(): SakuraClientResponses;
         setup(): any;
     }
 

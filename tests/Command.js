@@ -2,10 +2,8 @@ let { CommandCreator, Event } = require("sakura.js");
 
 new CommandCreator({
     names: ["test"],
-    args: ["member", "id"],
-    execute(ctx, util) {
-        ctx.args.parsed.
-    }
+    args: ["member", "data"],
+    execute(ctx, util) {}
 });
 
 new Event({
