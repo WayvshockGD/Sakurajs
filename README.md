@@ -1,8 +1,18 @@
 # 🌸 Sakurajs
 
-PLEASE NOTE THIS FRAMEWORK IS NOT FINISHED!
-
 A Eris framework based on Discord.js.
+
+# ⚙ Setup
+```shell
+npm install sakurajs
+```
+
+```ts
+import sakura from "sakura.js";
+```
+```js
+let sakura = require("sakura.js");
+```
 
 # 🔧 Examples
 

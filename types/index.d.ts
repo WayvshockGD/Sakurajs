@@ -100,7 +100,7 @@ declare module "sakura.js" {
         onlyForChannels?: CommandCreatorChannelForOptions;
         description?: string;
         enabled?: boolean;
-        args?: CommandArgsOptions<T, D>;
+        args?: CommandArgsOptions<T>;
         owner?: boolean;
         cooldown?: number;
         execute(ctx: CommandContext<T, D>, util: CommandUtil): any;
@@ -130,7 +130,7 @@ declare module "sakura.js" {
 
     type SakuraCronTypeArgs = string | Date | moment.Moment;
 
-    type CommandArgsOptions<T extends CommandCreatorContextArgTypes, K extends SakuraCommandArgData> = [CommandCreatorContextMentionTypes, T, K];
+    type CommandArgsOptions<T extends CommandCreatorContextArgTypes> = [CommandCreatorContextMentionTypes, T];
 
     type CommandCreatorContextMentionTypes = "member" | "channel" | "role";
     
@@ -164,6 +164,8 @@ declare module "sakura.js" {
         login(): Promise<string>;
         processEvents(): void;
         getClients(): ExtendedStructureClients;
+        public loadCommands(commands: CommandCreator[]): void;
+        public loadEvents<K extends keyof Eris.ClientEvents>(events: Event<K>[]): Promise<boolean>;
     }
 
     export class Logger {
@@ -235,9 +237,9 @@ declare module "sakura.js" {
 
     export class CommandArgs<T extends CommandCreatorContextArgTypes, K extends SakuraCommandArgData> {
         private message: ExtendedMessage;
-        private args: CommandArgsOptions<T, K>;
+        private args: CommandArgsOptions<T>;
         public parsed: string;
-        public constructor(arg: CommandArgsOptions<T, K>, message: ExtendedMessage);
+        public constructor(arg: CommandArgsOptions<T>, message: ExtendedMessage);
         parse(): string;
     }
 
@@ -251,7 +253,7 @@ declare module "sakura.js" {
         public owner?: boolean | undefined;
         public enabled?: boolean | undefined;
         public options: CommandCreatorOptions<T, K>;
-        public args?: CommandArgsOptions<T, K> | undefined;
+        public args?: CommandArgsOptions<T> | undefined;
         public onlyForChannels?: CommandCreatorChannelForOptions | undefined;
         public cooldown?: number;
         public constructor(options: CommandCreatorOptions<T, K>);
