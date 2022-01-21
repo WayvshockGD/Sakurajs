@@ -1,6 +1,8 @@
 import chalk from "chalk";
+import { CronJob } from "cron";
 import Eris from "eris";
 import EventEmitter from "events";
+import moment from "moment";
 
 declare module "sakura.js" {
 
@@ -16,6 +18,7 @@ declare module "sakura.js" {
 
     interface SakuraClientCommandOptions {
         defaultPrefix: string;
+        initHandler: boolean;
     }
 
     interface ExtendedStructureClients {
@@ -27,6 +30,7 @@ declare module "sakura.js" {
         error?: string | false;
         noArgs?: string | false;
         noCommand?: string | false;
+        forChannel?: string | false;
     }
 
     interface ErisEmbed {
@@ -62,14 +66,14 @@ declare module "sakura.js" {
         run(logger: Logger, ...data: Eris.ClientEvents[T]): any;
     }
 
-    interface CommandCreatorOptions {
+    interface CommandCreatorOptions<T, K> {
         names: string[];
         onlyForChannels?: CommandCreatorChannelForOptions;
         description?: string;
         enabled?: boolean;
         args?: CommandArgsOptions;
         owner?: boolean;
-        execute(ctx: CommandContext, util: CommandUtil): any;
+        execute(ctx: CommandContext<T, K>, util: CommandUtil): any;
     }
 
     interface CommandCreatorChannelForOptions {
@@ -77,22 +81,26 @@ declare module "sakura.js" {
         message: string;
     }
 
-    interface CommandArgData {
-        parsed: string;
+    interface CommandArgData<T, K> {
+        parsed: T extends "data" ? K : string;
         raw: string[];
     }
     
-    interface CommandContext {
+    interface CommandContext<T, K> {
         message: ExtendedMessage;
         instances: ExtendedStructureClients;
-        args: CommandArgData;
+        args: CommandArgData<T, K>;
     }
+
+    type SakuraCommandArgData = (Eris.User | Eris.TextableChannel | Eris.Role);
+
+    type SakuraCronTypeArgs = string | Date | moment.Moment;
 
     type CommandArgsOptions = [CommandCreatorContextMentionTypes, CommandCreatorContextArgTypes];
 
     type CommandCreatorContextMentionTypes = "member" | "channel" | "role";
     
-    type CommandCreatorContextArgTypes = "mention" | "id";
+    type CommandCreatorContextArgTypes = "mention" | "id" | "data";
 
     type ErisColorResolve = ErisColorPalletResolve | ErisPastelColorResolve | ErisDarkColorResolve | ErisLightColorResolve | ErisPrideColorResolve | ErisDiscordColorResolve;
 
@@ -199,15 +207,17 @@ declare module "sakura.js" {
         static parseColor(color: ErisColorResolve): number;
     }
 
-    class CommandCreator implements CommandCreatorOptions {
+    class CommandCreator<K = SakuraCommandArgData, T extends CommandCreatorContextArgTypes = CommandCreatorContextArgTypes> implements CommandCreatorOptions<T, K> {
         public names: string[];
         public description?: string | undefined;
         public owner?: boolean | undefined;
         public enabled?: boolean | undefined;
-        public options: CommandCreatorOptions;
-        public constructor(options: CommandCreatorOptions);
+        public options: CommandCreatorOptions<T, K>;
+        public args?: CommandArgsOptions | undefined;
+        public onlyForChannels?: CommandCreatorChannelForOptions | undefined;
+        public constructor(options: CommandCreatorOptions<T, K>);
         initArgs(message: ExtendedMessage): CommandArgs;
-        execute(ctx: CommandContext, util: CommandUtil): any;
+        execute(ctx: CommandContext<T, K>, util: CommandUtil): any;
         private verify();
     }
 
@@ -225,6 +235,11 @@ declare module "sakura.js" {
         public options: SakuraClientCommandOptions;
         constructor(options: SakuraClientCommandOptions);
         setup(): any;
+    }
+
+    export class SakuraCron extends CronJob {
+        constructor(time: SakuraCronTypeArgs, func: () => void);
+        static init(time: SakuraCronTypeArgs, func: () => void): SakuraCron;
     }
 
     export class ExtendedCollection<K, V> extends Map<K, V> {}
