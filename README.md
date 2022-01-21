@@ -1,23 +1,23 @@
-# 🌸 Sakurajs
+# 🌸 Sakura.js
 
 A Eris framework based on Discord.js.
 
 # ⚙ Setup
 ```shell
-npm install sakurajs
+npm install eris-sakura.js
 ```
 
 ```ts
-import sakura from "sakura.js";
+import sakura from "eris-sakura.js";
 ```
 ```js
-let sakura = require("sakura.js");
+let sakura = require("eris-sakura.js");
 ```
 
 # 🔧 Examples
 
 ```js
-let { SakuraClient } = require("sakura.js");
+let { SakuraClient } = require("eris-sakura.js");
 let Eris = require("eris");
 
 let erisClient = new Eris.Client("TOKEN", {});
@@ -26,7 +26,7 @@ let client = new SakuraClient(erisClient, { maxAttempts: 3 }); // Call the eris 
 // Its a extended message so there are more methods!
 client.on("message", (message) => {
        if (message.content.startsWith("!send") {
-           message.post("Hi this is a message from the sakurajs framework"); // message.post() works the same way channel.createMessage() but it catches the error.
+           message.post("Hi this is a message from the eris-sakura.js framework"); // message.post() works the same way channel.createMessage() but it catches the error.
        }
 });
 
@@ -42,7 +42,7 @@ If you would like more pallets, fork this repo and make a pull request.
 
 Embed:
 ```js
-let { ErisMessageEmbed } = require("sakura.js");
+let { ErisMessageEmbed } = require("eris-sakura.js");
 
 let embed = new ErisMessageEmbed()
     .setDescription("This is a embed!")
@@ -59,7 +59,7 @@ The reaction and message collectors are copied code from
 
 Example of usage
 ```js
-let { MessageCollector, ReactionCollector } = require("sakura.js"); // Import it
+let { MessageCollector, ReactionCollector } = require("eris-sakura.js"); // Import it
 
 client.on("message", (message) => {
     if (message.content.startsWith("!collect")) {
@@ -86,7 +86,7 @@ The logger class is the main class of the client.
 
 Usage:
 ```js
-let { Logger } = require("sakura.js");
+let { Logger } = require("eris-sakura.js");
 
 let log = new Logger();
 

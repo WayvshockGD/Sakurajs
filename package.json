@@ -1,9 +1,13 @@
 {
-  "name": "sakura.js",
-  "version": "1.0.0",
+  "name": "eris-sakura.js",
+  "version": "1.0.1",
   "description": "Eris framework for easy use of the library.",
   "main": "index.js",
   "types": "./types/index.d.ts",
+  "repository": {
+    "url": "https://github.com/WayvshockGD/Sakurajs",
+    "type": "git"
+  },
   "scripts": {},
   "keywords": [
     "framework",
