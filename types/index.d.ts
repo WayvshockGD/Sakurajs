@@ -130,7 +130,7 @@ declare module "sakura.js" {
 
     type SakuraCronTypeArgs = string | Date | moment.Moment;
 
-    type CommandArgsOptions<T extends CommandCreatorContextArgTypes, K extends SakuraCommandArgData> = [CommandCreatorContextMentionTypes, T];
+    type CommandArgsOptions<T extends CommandCreatorContextArgTypes, K extends SakuraCommandArgData> = [CommandCreatorContextMentionTypes, T, K];
 
     type CommandCreatorContextMentionTypes = "member" | "channel" | "role";
     
