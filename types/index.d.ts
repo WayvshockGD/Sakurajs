@@ -4,7 +4,7 @@ import Eris from "eris";
 import EventEmitter from "events";
 import moment from "moment";
 
-declare module "sakura.js" {
+declare module "eris-sakura.js" {
 
     interface SakuraClientOptions {
         log?: {
@@ -42,6 +42,7 @@ declare module "sakura.js" {
         noArgs?: string | false;
         noCommand?: string | false;
         forChannel?: string | false;
+        commandDisabled?: string | false;
         cooldown?: (time: number) => string | false;
     }
 
@@ -215,7 +216,7 @@ declare module "sakura.js" {
         guild: Eris.Guild;
         memberGuildRoles: Eris.Role[];
         createEmbedMessage(content: ErisEmbed | ErisEmbed[] | ErisMessageEmbed | ErisMessageEmbed[]): Eris.Message;
-        post(content: Eris.MessageContent, file: Eris.FileContent | Eris.FileContent[]): Eris.Message;
+        post(content: Eris.MessageContent, file?: Eris.FileContent | Eris.FileContent[]): Eris.Message;
         createMessageCollector(filter: CollectorFilter, options: MessageCollectorOptions): MessageCollector;
         createReactionCollector(filter: ReactionCollectorOptions, perma: boolean, options: ReactionCollectorOptions): ReactionCollector;
     }
@@ -230,6 +231,7 @@ declare module "sakura.js" {
     export class CommandUtil {
         private command: CommandCreator;
         private message: ExtendedMessage;
+        public resolver: Resolvers;
         constructor(command: CommandCreator, message: ExtendedMessage);
         cron(time: SakuraCronTypeArgs, fn: () => any): SakuraCron;
         public createEmbed(data: ErisEmbed): ErisMessageEmbed;
@@ -303,6 +305,13 @@ declare module "sakura.js" {
         on: ReactionCollectorEvents<this>;
         checkPrecondition(msg: Eris.Message, emoji: Eris.PartialEmoji, reactor: Eris.Uncached | Eris.Member): boolean;
         stopListening(reason: string): void;
+    }
+
+    export class Resolvers {
+        public constructor(message: ExtendedMessage, args: string[]);
+        resolveMember(): false | Eris.Member;
+        resolveChannel(): false | Eris.TextChannel | Eris.VoiceChannel | Eris.CategoryChannel | Eris.StoreChannel;
+        resolveRole(): false | Eris.Role;
     }
 
     export class ExtendedCollection<K, V> extends Map<K, V> {}
