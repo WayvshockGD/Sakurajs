@@ -165,7 +165,8 @@ declare module "eris-sakura.js" {
         login(): Promise<string>;
         processEvents(): void;
         getClients(): ExtendedStructureClients;
-        public loadPlugins(commands: Plugin[]): void;
+        public loadPlugins(plugins: Plugin[]): void;
+        public loadCommands(commands: CommandCreator[]): void;
         public loadEvents<K extends keyof Eris.ClientEvents>(events: Event<K>[]): Promise<boolean>;
     }
 
