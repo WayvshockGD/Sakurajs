@@ -11,7 +11,8 @@ The bot now sends a messsage if the command is disabled.
 ```
 QuickFix:
 ```
-Changed SakuraClient.loadCommands() to .loadPlugins()
+Changed SakuraClient.loadCommands() to .loadPlugins().
+The client no longer runs from Event.execute its now .run() for some reason.
 ```
 
 # 🌸 Sakura.js
