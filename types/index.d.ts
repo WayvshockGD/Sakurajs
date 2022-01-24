@@ -225,14 +225,14 @@ declare module "eris-sakura.js" {
         get name(): string;
         public commands: ExtendedCollection<string, CommandCreator>;
         public constructor(options: PluginOptions);
-        setCommands(commands: CommandCreator): any;
+        setCommands(commands: CommandCreator[]): any;
     }
 
     export class CommandUtil {
         private command: CommandCreator;
         private message: ExtendedMessage;
         public resolver: Resolvers;
-        constructor(command: CommandCreator, message: ExtendedMessage);
+        constructor(command: CommandCreator, message: ExtendedMessage, Resolver: Resolvers);
         cron(time: SakuraCronTypeArgs, fn: () => any): SakuraCron;
         public createEmbed(data: ErisEmbed): ErisMessageEmbed;
     }
