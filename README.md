@@ -1,5 +1,10 @@
 # Updates
 
+`1.4.11`:
+```
+Added new color pallet outrun thanks to @RedStone576 
+Fixed things with CommandArgs and its typings
+```
 `1.1.2`:
 ```
 The module when using typescript is now `eris-sakura.js` instead of `sakura.js`.
