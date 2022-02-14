@@ -118,3 +118,8 @@ let logger = new Logger({ ISO: true }); // Will use the .toISOString() method in
 
 logger.custom("he", "idk", "blue")(); // A custom logger function to create a custom log. It returns a function because its a custom.
 ```
+
+# 🌟 special thanks to these contributors
+<a href="https://github.com/WayvshockGD/Sakurajs/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=WayvshockGD/Sakurajs" />
+</a>
