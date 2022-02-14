@@ -137,7 +137,13 @@ declare module "eris-sakura.js" {
     
     type CommandCreatorContextArgTypes = "mention" | "id" | "data";
 
-    type ErisColorResolve = ErisColorPalletResolve | ErisPastelColorResolve | ErisDarkColorResolve | ErisLightColorResolve | ErisPrideColorResolve | ErisDiscordColorResolve;
+    type ErisColorResolve = ErisColorPalletResolve | 
+                            ErisPastelColorResolve | 
+                            ErisDarkColorResolve | 
+                            ErisLightColorResolve |
+                            ErisPrideColorResolve | 
+                            ErisDiscordColorResolve |
+                            ErisOutRunPalletColorResolve;
 
     type ErisPastelColorResolve = "pasRed" | "pasOrange" | "pasYellow" | "pasGreen" | "pasBlue" | "pasPurple";
 
@@ -150,6 +156,8 @@ declare module "eris-sakura.js" {
     type ErisPrideColorResolve = "cornFlowerBlue" | "pacificBlue" | "corn" | "rajah" | "bigDripOruby" | ErisPridePalletColorResolve;
 
     type ErisPridePalletColorResolve = "prideRed" | "prideOrange" | "prideYellow" | "prideGreen" | "prideBlue" | "pridePurple";
+    
+    type ErisOutRunPalletColorResolve = "outPink" | "outRed" | "outOrange" | "outYellow" | "outCyan" | "outPurple" | "outDarkPurple";
     
     type ErisDiscordColorResolve = "blurple" | "greyple" | "notQuiteBlack" | "darkButNotQuiteBlack";
 
