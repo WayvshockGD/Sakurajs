@@ -123,11 +123,17 @@ declare module "eris-sakura.js" {
         args: CommandArgData<T, K>;
     }
 
+    interface CommandArgDataFills {
+        user?: Eris.User;
+        channel?: Eris.Channel;
+        role?: Eris.Role;
+    }
+
     type CollectorFilter = (m: Eris.Message, collected: number) => boolean;
 
     type ReactionCollectorFilter = (id: string) => boolean;
 
-    type SakuraCommandArgData = (Eris.User | Eris.TextableChannel | Eris.Role);
+    type SakuraCommandArgData = CommandArgDataFills;
 
     type SakuraCronTypeArgs = string | Date | moment.Moment;
 
