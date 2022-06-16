@@ -1,6 +1,6 @@
 {
   "name": "eris-sakura.js",
-  "version": "1.4.12",
+  "version": "1.5.11",
   "description": "Eris framework for easy use of the library.",
   "main": "index.js",
   "types": "./types/index.d.ts",
