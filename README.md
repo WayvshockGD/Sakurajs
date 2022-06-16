@@ -4,7 +4,7 @@
 ```
 Bumped Eris version to 1.17
 Added option to ignore bots in command options
-Changed things in ErisMessageEmbed such as adding `setFooter();` and other fixes
+Changed things in ErisMessageEmbed such as adding setFooter() and other fixes
 changes and fixes done bt @RedStone576
 ```
 
