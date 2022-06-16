@@ -30,6 +30,7 @@ declare module "eris-sakura.js" {
     interface SakuraClientCommandOptions {
         defaultPrefix: string;
         initHandler: boolean;
+        ignoreBots: boolean;
     }
 
     interface ExtendedStructureClients {
