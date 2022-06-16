@@ -1,24 +1,18 @@
 # Updates
 
+`1.5.11`:
+```
+Bumped Eris version to 1.17
+Added option to ignore bots in command options
+Changed things in ErisMessageEmbed such as adding `setFooter();` and other fixes
+changes and fixes done bt @RedStone576
+```
+
 `1.4.11`:
 ```
 Added new color pallet outrun thanks to @RedStone576 
 Fixed things with CommandArgs and its typings
-```
-`1.1.2`:
-```
-The module when using typescript is now `eris-sakura.js` instead of `sakura.js`.
-Fixed typings for message.post() so you don't have to put in a file while using ts.
-Added resolver types, Because they weren't added yet.
-`Resolvers` is now a exported member.
-CommandHandler#options no longer shows `responses` when used and now uses the client options instead.
-The bot now sends a messsage if the command is disabled.
-```
-QuickFix:
-```
-Changed SakuraClient.loadCommands() to .loadPlugins().
-The client no longer runs from Event.execute its now .run() for some reason.
-```
+``
 
 # 🌸 Sakura.js
 
